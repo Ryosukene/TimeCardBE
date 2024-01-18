@@ -27,7 +27,7 @@ func NewRouter(uc controller.IUserController, auc controller.IAuthUserController
 		// CookieSameSite: http.SameSiteDefaultMode,
 		//CookieMaxAge:   60,
 	}))
-	e.POST("/signup", uc.SignUp)
+	// e.POST("/signup", uc.SignUp)
 	e.POST("/create-user", uc.SignUp)
 	e.POST("/login", uc.LogIn)
 	e.POST("/logout", uc.LogOut)

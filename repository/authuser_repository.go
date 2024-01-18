@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"errors"
+	"fmt"
 	"go-rest-api/model"
 
 	"gorm.io/gorm"
@@ -27,6 +29,15 @@ func (aur *authUserRepository) GetAuthUserByEmail(authUser *model.AuthUser, emai
 }
 
 func (aur *authUserRepository) CreateAuthUser(authUser *model.AuthUser) error {
+	// 既に同じメールアドレスを持つユーザーが存在するか確認
+	var count int64
+	fmt.Println(authUser.Email)
+	aur.db.Model(&model.AuthUser{}).Where("email = ?", authUser.Email).Count(&count)
+
+	if count > 0 {
+		return errors.New("このメールアドレスは既に使用されています")
+	}
+
 	if err := aur.db.Create(authUser).Error; err != nil {
 		return err
 	}
